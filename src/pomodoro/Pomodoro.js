@@ -115,13 +115,19 @@ function Pomodoro({
     });
   }
 
-  function displayFocusOrBreakText() {
+  function displayFocusOrBreakText(session) {
     if (!session) {
       return;
-    } else if (session.label === 'Focusing') {
-      return `Focusing for ${minutesToDuration(focusDuration)} minutes`;
-    } else if (session.label === 'On Break') {
-      return `On Break for ${minutesToDuration(breakDuration)} minutes`;
+    } else {
+      return `${session.label} for ${minutesToDuration(focusDuration)} minutes`;
+    }
+  }
+
+  function displayRemainMinutesText(session) {
+    if (!session) {
+      return;
+    } else {
+      return `${secondsToDuration(session.timeRemaining)} remaining`;
     }
   }
 
@@ -233,12 +239,11 @@ function Pomodoro({
           <div className='col'>
             {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
             <h2 data-testid='session-title'>
-              {session ? session.label : null} {displayFocusOrBreakText()}
+              {displayFocusOrBreakText(session)}
             </h2>
             {/* TODO: Update message below correctly format the time remaining in the current session */}
             <p className='lead' data-testid='session-sub-title'>
-              {session ? secondsToDuration(session.timeRemaining) : null}{' '}
-              remaining
+              {displayRemainMinutesText(session)}
             </p>
           </div>
         </div>
