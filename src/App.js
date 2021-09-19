@@ -55,6 +55,7 @@ function App() {
           increaseFocusDuration={increaseFocusDuration}
           decreaseBreakDuration={decreaseBreakDuration}
           increaseBreakDuration={increaseBreakDuration}
+          setActiveSession={setActiveSession}
         />
       </div>
     </div>

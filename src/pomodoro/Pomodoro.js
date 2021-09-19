@@ -53,6 +53,7 @@ function nextSession(focusDuration, breakDuration) {
 function Pomodoro({
   initialState,
   activeSession,
+  setActiveSession,
   decreaseFocusDuration,
   increaseFocusDuration,
   decreaseBreakDuration,
@@ -80,6 +81,29 @@ function Pomodoro({
    */
   // check if session is active
 
+  const resetAppToInitialState = () => {
+    setActiveSession(() => ({ ...initialState }));
+    setIsTimerRunning(() => false);
+    setDisableIncrementAndDecrement(() => false);
+    setDisableStopButton(() => true);
+    setSession(() => null);
+  };
+
+  const fillProgressBar = (session) => {
+    if (!session) return;
+    const { label, timeRemaining } = session;
+    if (label === 'Focusing') {
+      return (
+        ((focusDuration * 60 - timeRemaining) / (focusDuration * 60)) * 100
+      );
+    }
+    if (label === 'On Break') {
+      return (
+        ((breakDuration * 60 - timeRemaining) / (breakDuration * 60)) * 100
+      );
+    }
+  };
+
   useInterval(
     () => {
       if (session.timeRemaining === 0) {
@@ -88,7 +112,7 @@ function Pomodoro({
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 100 : null
+    isTimerRunning ? 1000 : null
   );
 
   /**
@@ -223,6 +247,7 @@ function Pomodoro({
             {/* TODO: Implement stopping the current focus or break session. and disable the stop button when there is no active session */}
             {/* TODO: Disable the stop button when there is no active session */}
             <button
+              onClick={resetAppToInitialState}
               type='button'
               className='btn btn-secondary'
               data-testid='stop'
@@ -241,6 +266,7 @@ function Pomodoro({
           session={session}
           displayFocusOrBreakText={displayFocusOrBreakText}
           displayRemainingMinutesText={displayRemainingMinutesText}
+          fillProgressBar={fillProgressBar}
         />
       </div>
     </div>

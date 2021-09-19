@@ -4,8 +4,10 @@ function SessionInfo({
   session,
   displayFocusOrBreakText,
   displayRemainingMinutesText,
+  fillProgressBar,
 }) {
   let sessionInfo;
+  const currentPercentage = fillProgressBar(session);
   if (!session) {
     sessionInfo = null;
   } else {
@@ -31,8 +33,8 @@ function SessionInfo({
                 role='progressbar'
                 aria-valuemin='0'
                 aria-valuemax='100'
-                aria-valuenow='0' // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: '0%' }} // TODO: Increase width % as elapsed time increases
+                aria-valuenow={currentPercentage} // TODO: Increase aria-valuenow as elapsed time increases
+                style={{ width: `${currentPercentage}%` }} // TODO: Increase width % as elapsed time increases
               />
             </div>
           </div>
