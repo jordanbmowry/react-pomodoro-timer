@@ -84,9 +84,6 @@ function Pomodoro() {
       setSession(nextTick);
       const left = session.timeRemaining;
       if (session.label === 'Focusing') {
-        // setAria(
-        //   (100 * (state.focusDuration * 60 - left)) / (state.focusDuration * 60)
-        // );
         setState((currentState) => ({
           ...currentState,
           aria: (100 * (focusDuration * 60 - left)) / (focusDuration * 60),
@@ -100,10 +97,6 @@ function Pomodoro() {
     },
     isTimerRunning ? 1000 : null
   );
-
-  //    setAriaValue(100*(focusTime * 60 - focusRun)/(focusTime*60))
-  //  }
-  //   else {setAriaValue(100*(breakTime * 60 - breakRun)/(breakTime*60))
 
   useInterval(() => {
     if (session && session.timeRemaining) {
@@ -136,12 +129,6 @@ function Pomodoro() {
       return nextState;
     });
   }
-
-  //   console.log(session && Math.abs(session.timeRemaining -focusDuration*60), 'elapsed')
-  //   console.log(session && (focusDuration * 60 - session.timeRemaining)*.1)
-  //   console.log(focusDuration - elapsed)
-  //   console.log((session.label.toLowerCase().indexOf("ocus") > 0 ? focusDuration : breakDuration)*100)
-  //   console.log(session.timeRemaining/(session.label.toLowerCase().indexOf("ocus") > 0 ? focusDuration : breakDuration)*100)
 
   return (
     <div className='pomodoro'>
@@ -290,41 +277,42 @@ function Pomodoro() {
       <div>
         {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
         {session && (
-          <div className='row mb-2'>
-            <div className='col'>
-              {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
-              <h2 data-testid='session-title'>
-                {session && session.label} for{' '}
-                {(
-                  '0' +
-                  (session.label.toLowerCase().indexOf('ocus') > 0
-                    ? focusDuration
-                    : breakDuration)
-                ).substr(-2)}
-                :00 minutes
-              </h2>
-              {/* TODO: Update message below correctly format the time remaining in the current session */}
-              <p className='lead' data-testid='session-sub-title'>
-                {session && secondsToDuration(session.timeRemaining)} remaining
-              </p>
-            </div>
-          </div>
-        )}
-        {session && (
-          <div className='row mb-2'>
-            <div className='col'>
-              <div className='progress' style={{ height: '20px' }}>
-                <div
-                  className='progress-bar'
-                  role='progressbar'
-                  aria-valuemin='0'
-                  aria-valuemax='100'
-                  aria-valuenow={aria} // TODO: Increase aria-valuenow as elapsed time increases
-                  style={{ width: `${aria}%` }} // TODO: Increase width % as elapsed time increases
-                />
+          <React.Fragment>
+            <div className='row mb-2'>
+              <div className='col'>
+                {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
+                <h2 data-testid='session-title'>
+                  {session && session.label} for{' '}
+                  {(
+                    '0' +
+                    (session.label.toLowerCase().indexOf('ocus') > 0
+                      ? focusDuration
+                      : breakDuration)
+                  ).substr(-2)}
+                  :00 minutes
+                </h2>
+                {/* TODO: Update message below correctly format the time remaining in the current session */}
+                <p className='lead' data-testid='session-sub-title'>
+                  {session && secondsToDuration(session.timeRemaining)}{' '}
+                  remaining
+                </p>
               </div>
             </div>
-          </div>
+            <div className='row mb-2'>
+              <div className='col'>
+                <div className='progress' style={{ height: '20px' }}>
+                  <div
+                    className='progress-bar'
+                    role='progressbar'
+                    aria-valuemin='0'
+                    aria-valuemax='100'
+                    aria-valuenow={aria} // TODO: Increase aria-valuenow as elapsed time increases
+                    style={{ width: `${aria}%` }} // TODO: Increase width % as elapsed time increases
+                  />
+                </div>
+              </div>
+            </div>
+          </React.Fragment>
         )}
       </div>
     </div>
