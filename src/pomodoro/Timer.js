@@ -9,6 +9,41 @@ function Timer({
   setState,
 }) {
   const { focusDuration, breakDuration } = state;
+
+  const handleDecreaseFocus = () => {
+    if (focusDuration > 5)
+      setState((currentState) => ({
+        ...currentState,
+        focusDuration: currentState['focusDuration'] - 5,
+      }));
+  };
+
+  const handleIncreaseFocus = () => {
+    if (focusDuration < 60)
+      setState((currentState) => ({
+        ...currentState,
+        focusDuration: currentState['focusDuration'] + 5,
+      }));
+  };
+
+  const handleDecreaseBreak = () => {
+    if (breakDuration > 1) {
+      setState((currentState) => ({
+        ...currentState,
+        breakDuration: currentState['breakDuration'] - 1,
+      }));
+    }
+  };
+
+  const handleIncreaseBreak = () => {
+    if (breakDuration < 15) {
+      setState((currentState) => ({
+        ...currentState,
+        breakDuration: currentState['breakDuration'] + 1,
+      }));
+    }
+  };
+
   return (
     <React.Fragment>
       <div className='row'>
@@ -24,13 +59,7 @@ function Timer({
                 type='button'
                 className='btn btn-secondary'
                 data-testid='decrease-focus'
-                onClick={() => {
-                  if (focusDuration > 5)
-                    setState((currentState) => ({
-                      ...currentState,
-                      focusDuration: currentState['focusDuration'] - 5,
-                    }));
-                }}
+                onClick={handleDecreaseFocus}
               >
                 <span className='oi oi-minus' />
               </button>
@@ -39,13 +68,7 @@ function Timer({
                 type='button'
                 className='btn btn-secondary'
                 data-testid='increase-focus'
-                onClick={() => {
-                  if (focusDuration < 60)
-                    setState((currentState) => ({
-                      ...currentState,
-                      focusDuration: currentState['focusDuration'] + 5,
-                    }));
-                }}
+                onClick={handleIncreaseFocus}
               >
                 <span className='oi oi-plus' />
               </button>
@@ -65,14 +88,7 @@ function Timer({
                   type='button'
                   className='btn btn-secondary'
                   data-testid='decrease-break'
-                  onClick={() => {
-                    if (breakDuration > 1) {
-                      setState((currentState) => ({
-                        ...currentState,
-                        breakDuration: currentState['breakDuration'] - 1,
-                      }));
-                    }
-                  }}
+                  onClick={handleDecreaseBreak}
                 >
                   <span className='oi oi-minus' />
                 </button>
@@ -81,14 +97,7 @@ function Timer({
                   type='button'
                   className='btn btn-secondary'
                   data-testid='increase-break'
-                  onClick={() => {
-                    if (breakDuration < 15) {
-                      setState((currentState) => ({
-                        ...currentState,
-                        breakDuration: currentState['breakDuration'] + 1,
-                      }));
-                    }
-                  }}
+                  onClick={handleIncreaseBreak}
                 >
                   <span className='oi oi-plus' />
                 </button>
