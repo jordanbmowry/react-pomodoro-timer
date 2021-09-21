@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from '../utils/class-names';
 import useInterval from '../utils/useInterval';
-import { secondsToDuration } from '../utils/duration';
+import SessionInfo from './SessionInfo';
 
 // These functions are defined outside of the component to insure they do not have access to state
 // and are, therefore more likely to be pure.
@@ -159,7 +159,6 @@ function Pomodoro() {
                 data-testid='decrease-focus'
                 onClick={() => {
                   if (focusDuration > 5)
-                    // setFocusDuration(focusDuration - 5);
                     setState((currentState) => ({
                       ...currentState,
                       focusDuration: currentState['focusDuration'] - 5,
@@ -175,7 +174,6 @@ function Pomodoro() {
                 data-testid='increase-focus'
                 onClick={() => {
                   if (focusDuration < 60)
-                    // setFocusDuration(focusDuration + 5);
                     setState((currentState) => ({
                       ...currentState,
                       focusDuration: currentState['focusDuration'] + 5,
@@ -265,7 +263,6 @@ function Pomodoro() {
               onClick={() => {
                 setSession(null);
                 setIsTimerRunning(false);
-                // setElapsed(0);
                 setState({ ...initialState });
               }}
             >
@@ -274,47 +271,8 @@ function Pomodoro() {
           </div>
         </div>
       </div>
-      <div>
-        {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
-        {session && (
-          <React.Fragment>
-            <div className='row mb-2'>
-              <div className='col'>
-                {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
-                <h2 data-testid='session-title'>
-                  {session && session.label} for{' '}
-                  {(
-                    '0' +
-                    (session.label.toLowerCase().indexOf('ocus') > 0
-                      ? focusDuration
-                      : breakDuration)
-                  ).substr(-2)}
-                  :00 minutes
-                </h2>
-                {/* TODO: Update message below correctly format the time remaining in the current session */}
-                <p className='lead' data-testid='session-sub-title'>
-                  {session && secondsToDuration(session.timeRemaining)}{' '}
-                  remaining
-                </p>
-              </div>
-            </div>
-            <div className='row mb-2'>
-              <div className='col'>
-                <div className='progress' style={{ height: '20px' }}>
-                  <div
-                    className='progress-bar'
-                    role='progressbar'
-                    aria-valuemin='0'
-                    aria-valuemax='100'
-                    aria-valuenow={aria} // TODO: Increase aria-valuenow as elapsed time increases
-                    style={{ width: `${aria}%` }} // TODO: Increase width % as elapsed time increases
-                  />
-                </div>
-              </div>
-            </div>
-          </React.Fragment>
-        )}
-      </div>
+      {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
+      <SessionInfo state={state} session={session} />
     </div>
   );
 }
